@@ -30,6 +30,6 @@
 Optimal Policy:
 R R R R R R R R R G
 ```
-* 出力の説明
- * R : 右に移動
- * L : 左に移動
+## 出力の説明
+* R : 右に移動
+* L : 左に移動
