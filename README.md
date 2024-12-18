@@ -46,7 +46,7 @@ R R R R R R R R R G
         * ゴールに到達した場合 : +1
         * その他の移動の場合 :  -0.1
      * Q値の更新式
-     * <img src="[https://latex.codecogs.com/gif.latex?\int_a^bf(x)dx](https://latex.codecogs.com/svg.image?&space;)" />
+     * <img src="[[https://latex.codecogs.com/gif.latex?\int_a^bf(x)dx](https://latex.codecogs.com/svg.image?&space;)](https://latex.codecogs.com/svg.image?Q(s,a)=Q(s,a)&plus;ALPHA*[reward&plus;GAMMA*max(Q(s',a'))-Q(s,a)])" />
 
 最適政策の生成:
 
