@@ -1,75 +1,79 @@
 import numpy as np
 import random
-import matplotlib.pyplot as plt
 
-class QLearningRobot:
-    def __init__(self, n_states=10, alpha=0.1, gamma=0.9, epsilon=0.1):
-        """
-        Q学習を用いた1次元ロボットのシミュレータ
-        :param n_states: 状態数（1次元数直線の区間数）
-        :param alpha: 学習率
-        :param gamma: 割引率
-        :param epsilon: ε-greedy法での探索率
-        """
-        self.n_states = n_states  # 状態数（数直線の長さ）
-        self.q_table = np.zeros((n_states, 2))  # Qテーブル [状態][行動]
-        self.alpha = alpha
-        self.gamma = gamma
-        self.epsilon = epsilon
-        self.actions = [0, 1]  # 0: 左, 1: 右
+# パラメータ設定
+LINE_LENGTH = 10  # 数直線の長さ (0 ~ LINE_LENGTH-1)
+START_POSITION = 0
+GOAL_POSITION = LINE_LENGTH - 1  # ゴールの位置
+ACTIONS = ["left", "right"]  # 行動
 
-    def choose_action(self, state):
-        """ε-greedy法で行動を選択"""
-        if random.uniform(0, 1) < self.epsilon:
-            return random.choice(self.actions)
+ALPHA = 0.1  # 学習率
+GAMMA = 0.9  # 割引率
+EPSILON = 0.2  # 探索率
+EPISODES = 1000  # 学習エピソード数
+
+# Q値の初期化
+q_table = {pos: {action: 0 for action in ACTIONS} for pos in range(LINE_LENGTH)}
+
+def take_action(position, action):
+    """次の位置と報酬を返す"""
+    if action == "left":
+        next_position = max(0, position - 1)
+    elif action == "right":
+        next_position = min(LINE_LENGTH - 1, position + 1)
+    else:
+        raise ValueError("Invalid action")
+
+    # ゴールに到達したら報酬+1、それ以外は-0.1
+    reward = 1 if next_position == GOAL_POSITION else -0.1
+    return next_position, reward
+
+def choose_action(position):
+    """ε-greedy で行動を選択"""
+    if random.uniform(0, 1) < EPSILON:
+        return random.choice(ACTIONS)
+    else:
+        return max(q_table[position], key=q_table[position].get)
+
+# 学習プロセス
+for episode in range(EPISODES):
+    position = START_POSITION
+    total_reward = 0
+    done = False
+
+    while not done:
+        if position == GOAL_POSITION:
+            break  # ゴールに到達したら終了
+
+        action = choose_action(position)
+        next_position, reward = take_action(position, action)
+
+        # Q値の更新
+        if position != GOAL_POSITION:  # ゴール位置では更新しない
+            best_next_action = max(q_table[next_position], key=q_table[next_position].get)
+            q_table[position][action] += ALPHA * (
+                reward + GAMMA * q_table[next_position][best_next_action] - q_table[position][action]
+            )
+
+        position = next_position
+        total_reward += reward
+
+    print(f"Episode {episode + 1}: Total Reward = {total_reward}")
+
+# 最適政策の表示
+def print_policy():
+    """数直線上の最適政策を表示"""
+    policy = []
+    for position in range(LINE_LENGTH):
+        if position == GOAL_POSITION:
+            policy.append("G")  # ゴール
+        elif position < GOAL_POSITION:
+            best_action = max(q_table[position], key=q_table[position].get)
+            policy.append(best_action[0].upper())
         else:
-            return np.argmax(self.q_table[state])
+            policy.append(" ")  # ゴール以降は空白
 
-    def update_q_table(self, state, action, reward, next_state):
-        """Qテーブルの更新"""
-        next_max = np.max(self.q_table[next_state])
-        self.q_table[state, action] += self.alpha * (reward + self.gamma * next_max - self.q_table[state, action])
+    print("Optimal Policy:")
+    print(" ".join(policy))
 
-    def train(self, episodes=500):
-        """Q学習のトレーニング"""
-        goal = self.n_states - 1  # 目標位置
-        rewards = []
-
-        for episode in range(episodes):
-            state = 0  # 開始位置
-            total_reward = 0
-
-            while state != goal:
-                action = self.choose_action(state)
-                next_state = state + 1 if action == 1 else state - 1
-                next_state = max(0, min(self.n_states - 1, next_state))
-
-                # 報酬の設定
-                reward = 1 if next_state == goal else -0.01
-                self.update_q_table(state, action, reward, next_state)
-                state = next_state
-                total_reward += reward
-
-            rewards.append(total_reward)
-
-        print("Training Completed.")
-        return rewards
-
-    def show_q_table(self):
-        """Qテーブルの表示"""
-        print("\nQ-Table:")
-        print(self.q_table)
-
-    def plot_rewards(self, rewards):
-        """エピソードごとの報酬のプロット"""
-        plt.plot(rewards)
-        plt.title("Q-Learning Rewards Over Episodes")
-        plt.xlabel("Episodes")
-        plt.ylabel("Total Reward")
-        plt.show()
-
-if __name__ == "__main__":
-    robot = QLearningRobot(n_states=10)
-    rewards = robot.train(episodes=500)
-    robot.show_q_table()
-    robot.plot_rewards(rewards)
+print_policy()
