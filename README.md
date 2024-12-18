@@ -37,24 +37,16 @@ R R R R R R R R R G
 である.
 
 # 動作説明
-1. 環境の設定
+1. ロボットの動作
     * 数直線の長さ(LINE_LENGTH)とゴール位置(GOAL_POSITION)を設定.
     * ロボットは位置0からスタートし, 数直線上を移動する.
-
-
-Q-Learningの学習プロセス:
-
-ロボットは行動（左または右）を取り、報酬を得ます。
-
-報酬設計：
-
-ゴールに到達した場合 +1。
-
-その他の移動には -0.1。
-
-Q値は以下の式に基づいて更新されます：
-
-Q(s, a) = Q(s, a) + ALPHA * [報酬 + GAMMA * max(Q(s', a')) - Q(s, a)]
+2. Q学習のプロセス
+    * ロボットの行動は右移動(R)または左移動(L)である.
+    * 報酬設計
+        * ゴールに到達した場合 : +1
+        * その他の移動の場合 :  -0.1
+     * Q値の更新式
+     * <img src="[https://latex.codecogs.com/gif.latex?\int_a^bf(x)dx](https://latex.codecogs.com/svg.image?&space;)" />
 
 最適政策の生成:
 
