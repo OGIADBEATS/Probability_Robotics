@@ -25,8 +25,6 @@
 |---|---|---|---|---|---|---|---|---|
 S                                   G  
 ```
-<img width="658" alt="number_line" src="https://github.com/user-attachments/assets/bf3b294e-fc93-4940-be29-b060d2a3cc97" />
-
    * S : スタート位置(0)
    * G : ゴール位置(9)
 
