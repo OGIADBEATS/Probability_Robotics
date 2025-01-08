@@ -22,8 +22,8 @@
    * 以下のような数直線上で学習が行われる(初期設定の場合) : 
 <img width="658" alt="number_line" src="https://github.com/user-attachments/assets/bf3b294e-fc93-4940-be29-b060d2a3cc97" />
 
-   *S : スタート位置(0)
-   *G : ゴール位置(9)
+   * S : スタート位置(0)
+   * G : ゴール位置(9)
 
 # パラメータ設定
 各パラメータとデフォルト値は以下の通りである.
