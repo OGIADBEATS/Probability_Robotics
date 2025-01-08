@@ -6,7 +6,7 @@
     * 数直線の長さ(LINE_LENGTH)とゴール位置(GOAL_POSITION)を設定.
     * ロボットは位置0からスタートし, 数直線上を右移動(R)または左移動(L)する.
     * 数直線上のイメージは以下の通りである(初期設定の場合)
-!["代替テキスト"]("number_line.png")
+<img width="658" alt="number_line" src="https://github.com/user-attachments/assets/bf3b294e-fc93-4940-be29-b060d2a3cc97" />
    
 2. Q学習のプロセス
     * 報酬設計
