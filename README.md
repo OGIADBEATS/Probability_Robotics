@@ -43,9 +43,15 @@ S                                   G
 # 出力例
 プログラム実行後, 学習された結果が以下のように表示される(初期設定の場合) : 
 ```
+Episode 1: Total Reward = -2.800000000000002
+Episode 2: Total Reward = -5.399999999999993
+Episode 3: Total Reward = -2.1000000000000014
+...
+Episode 1000: Total Reward = 0.20000000000000007
 Optimal Policy:
 R R R R R R R R R G
 ```
+
 ここで,
 * R : 右に移動
 * L : 左に移動
